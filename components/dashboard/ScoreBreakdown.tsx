@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { motion } from 'framer-motion';
 import type { CreditAssessment } from '@/types/sdk';
 import { ScoringEngine } from '@/lib/sdk';
@@ -11,6 +10,33 @@ interface ScoreBreakdownProps {
 
 export function ScoreBreakdown({ assessment }: ScoreBreakdownProps) {
     const breakdown = ScoringEngine.getScoreBreakdown(assessment);
+
+    // Helper to get color classes
+    const getColorClasses = (color: string) => {
+        const colorMap = {
+            'neon-cyan': {
+                text: 'text-neon-cyan',
+                gradient: 'from-neon-cyan to-neon-cyan/50',
+                bg: 'bg-neon-cyan',
+            },
+            'neon-green': {
+                text: 'text-neon-green',
+                gradient: 'from-neon-green to-neon-green/50',
+                bg: 'bg-neon-green',
+            },
+            'electric-purple': {
+                text: 'text-electric-purple',
+                gradient: 'from-electric-purple to-electric-purple/50',
+                bg: 'bg-electric-purple',
+            },
+            'neon-yellow': {
+                text: 'text-neon-yellow',
+                gradient: 'from-neon-yellow to-neon-yellow/50',
+                bg: 'bg-neon-yellow',
+            },
+        };
+        return colorMap[color as keyof typeof colorMap] || colorMap['neon-cyan'];
+    };
 
     const bonusItems = [
         {
@@ -75,6 +101,7 @@ export function ScoreBreakdown({ assessment }: ScoreBreakdownProps) {
             <div className="space-y-6">
                 {bonusItems.map((item, index) => {
                     const percentage = (item.value / item.max) * 100;
+                    const colors = getColorClasses(item.color);
 
                     return (
                         <motion.div
@@ -98,7 +125,7 @@ export function ScoreBreakdown({ assessment }: ScoreBreakdownProps) {
                                     </div>
                                 </div>
                                 <div className="flex items-baseline gap-1">
-                                    <span className={`text-2xl font-bold text-${item.color}`}>
+                                    <span className={`text-2xl font-bold ${colors.text}`}>
                                         +{item.value}
                                     </span>
                                     <span className="text-sm text-text-muted">/ {item.max}</span>
@@ -115,11 +142,11 @@ export function ScoreBreakdown({ assessment }: ScoreBreakdownProps) {
                                         delay: index * 0.1 + 0.3,
                                         ease: [0.16, 1, 0.3, 1],
                                     }}
-                                    className={`h-full bg-gradient-to-r from-${item.color} to-${item.color}/50 rounded-full relative`}
+                                    className={`h-full bg-gradient-to-r ${colors.gradient} rounded-full relative`}
                                 >
                                     {/* Glow effect */}
                                     <div
-                                        className={`absolute inset-0 bg-${item.color} opacity-50 blur-sm`}
+                                        className={`absolute inset-0 ${colors.bg} opacity-50 blur-sm`}
                                     />
                                 </motion.div>
 

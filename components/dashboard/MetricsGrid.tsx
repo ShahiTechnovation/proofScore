@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { motion } from 'framer-motion';
 import {
     Activity,
@@ -31,6 +30,37 @@ export function MetricsGrid({ metrics, previousMetrics }: MetricsGridProps) {
         if (!previous || previous === 0) return null;
         const change = ((current - previous) / previous) * 100;
         return Math.abs(change).toFixed(1);
+    };
+
+    // Helper to get color classes
+    const getColorClasses = (color: string) => {
+        const colorMap = {
+            'neon-cyan': {
+                bg: 'bg-neon-cyan/10',
+                border: 'border-neon-cyan/30',
+                text: 'text-neon-cyan',
+                gradient: 'from-neon-cyan to-neon-cyan/50',
+            },
+            'neon-green': {
+                bg: 'bg-neon-green/10',
+                border: 'border-neon-green/30',
+                text: 'text-neon-green',
+                gradient: 'from-neon-green to-neon-green/50',
+            },
+            'electric-purple': {
+                bg: 'bg-electric-purple/10',
+                border: 'border-electric-purple/30',
+                text: 'text-electric-purple',
+                gradient: 'from-electric-purple to-electric-purple/50',
+            },
+            'neon-yellow': {
+                bg: 'bg-neon-yellow/10',
+                border: 'border-neon-yellow/30',
+                text: 'text-neon-yellow',
+                gradient: 'from-neon-yellow to-neon-yellow/50',
+            },
+        };
+        return colorMap[color as keyof typeof colorMap] || colorMap['neon-cyan'];
     };
 
     const metricCards = [
@@ -93,6 +123,7 @@ export function MetricsGrid({ metrics, previousMetrics }: MetricsGridProps) {
                         : card.trend === 'down'
                             ? ArrowDown
                             : Minus;
+                const colors = getColorClasses(card.color);
 
                 return (
                     <motion.div
@@ -109,13 +140,9 @@ export function MetricsGrid({ metrics, previousMetrics }: MetricsGridProps) {
                         {/* Header */}
                         <div className="flex items-start justify-between mb-4">
                             <div
-                                className={`
-                w-12 h-12 rounded-xl flex items-center justify-center
-                bg-${card.color}/10 border border-${card.color}/30
-                group-hover:scale-110 transition-transform
-              `}
+                                className={`w-12 h-12 rounded-xl flex items-center justify-center ${colors.bg} border ${colors.border} group-hover:scale-110 transition-transform`}
                             >
-                                <Icon className={`w-6 h-6 text-${card.color}`} />
+                                <Icon className={`w-6 h-6 ${colors.text}`} />
                             </div>
 
                             {/* Trend Indicator */}
@@ -149,12 +176,12 @@ export function MetricsGrid({ metrics, previousMetrics }: MetricsGridProps) {
                                     initial={{ width: 0 }}
                                     animate={{
                                         width: `${card.label === 'DeFi Activity'
-                                                ? metrics.defiScore
-                                                : metrics.repaymentRate
+                                            ? metrics.defiScore
+                                            : metrics.repaymentRate
                                             }%`,
                                     }}
                                     transition={{ duration: 1.5, delay: index * 0.1 + 0.3 }}
-                                    className={`h-full bg-gradient-to-r from-${card.color} to-${card.color}/50 rounded-full`}
+                                    className={`h-full bg-gradient-to-r ${colors.gradient} rounded-full`}
                                 />
                             </div>
                         )}

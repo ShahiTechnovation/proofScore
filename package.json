@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev --turbo",
-    "build": "next build",
+    "build": "cross-env NEXT_DISABLE_BASELINE_BROWSER_MAPPING=1 next build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
@@ -21,6 +21,9 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@demox-labs/aleo-wallet-adapter-base": "^0.0.23",
+    "@demox-labs/aleo-wallet-adapter-react": "^0.0.22",
+    "@demox-labs/aleo-wallet-adapter-reactui": "^0.0.36",
     "@hookform/resolvers": "^3.10.0",
     "@noble/curves": "^1.7.0",
     "@noble/hashes": "^1.6.0",
@@ -97,6 +100,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cross-env": "^10.1.0",
     "eslint": "^9.0.0",
     "eslint-config-next": "16.0.10",
     "husky": "^9.1.7",

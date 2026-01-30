@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import type { RiskLevel } from '@/types/sdk';
 
@@ -126,8 +126,22 @@ export function ScoreRing({
                     {/* Gradient definition */}
                     <defs>
                         <linearGradient id={`scoreGradient-${size}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" className={`${colors.gradient.split(' ')[0].replace('from-', 'stop-color-')}`} />
-                            <stop offset="100%" className={`${colors.gradient.split(' ')[1].replace('to-', 'stop-color-')}`} />
+                            <stop
+                                offset="0%"
+                                stopColor={
+                                    riskLevel === 'low' ? '#00FF88' :
+                                        riskLevel === 'medium' ? '#FAFF00' :
+                                            '#FF0080'
+                                }
+                            />
+                            <stop
+                                offset="100%"
+                                stopColor={
+                                    riskLevel === 'low' ? '#00F0FF' :
+                                        riskLevel === 'medium' ? '#00F0FF' :
+                                            '#A855F7'
+                                }
+                            />
                         </linearGradient>
                     </defs>
 

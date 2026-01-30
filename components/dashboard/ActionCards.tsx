@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { motion } from 'framer-motion';
 import {
     RefreshCw,
@@ -24,6 +23,28 @@ export function ActionCards({
     onShareScore,
     onVerifyScore,
 }: ActionCardsProps) {
+    // Helper to get color classes
+    const getColorClasses = (color: string) => {
+        const colorMap = {
+            'neon-cyan': {
+                bg: 'bg-neon-cyan/10',
+                border: 'border-neon-cyan/30',
+                text: 'text-neon-cyan',
+            },
+            'neon-green': {
+                bg: 'bg-neon-green/10',
+                border: 'border-neon-green/30',
+                text: 'text-neon-green',
+            },
+            'electric-purple': {
+                bg: 'bg-electric-purple/10',
+                border: 'border-electric-purple/30',
+                text: 'text-electric-purple',
+            },
+        };
+        return colorMap[color as keyof typeof colorMap] || colorMap['neon-cyan'];
+    };
+
     const actions = [
         {
             icon: RefreshCw,
@@ -55,6 +76,7 @@ export function ActionCards({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {actions.map((action, index) => {
                 const Icon = action.icon;
+                const colors = getColorClasses(action.color);
 
                 return (
                     <motion.button
@@ -76,13 +98,9 @@ export function ActionCards({
                     >
                         {/* Icon */}
                         <div
-                            className={`
-              w-14 h-14 rounded-2xl flex items-center justify-center mb-4
-              bg-${action.color}/10 border border-${action.color}/30
-              group-hover:scale-110 transition-transform
-            `}
+                            className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 ${colors.bg} border ${colors.border} group-hover:scale-110 transition-transform`}
                         >
-                            <Icon className={`w-7 h-7 text-${action.color}`} />
+                            <Icon className={`w-7 h-7 ${colors.text}`} />
                         </div>
 
                         {/* Content */}

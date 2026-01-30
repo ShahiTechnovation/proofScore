@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { WalletProvider } from '@/lib/providers/WalletProvider';
+import { AleoWalletProvider } from '@/lib/providers/AleoWalletProvider';
 import './globals.css';
 
 // Primary font: Inter (modern, clean, professional)
@@ -96,12 +97,14 @@ export default function RootLayout({
         <div className="noise-overlay" />
 
         {/* Global Providers */}
-        <WalletProvider>
-          {/* Main content */}
-          <main className="relative min-h-screen">
-            {children}
-          </main>
-        </WalletProvider>
+        <AleoWalletProvider autoConnect>
+          <WalletProvider>
+            {/* Main content */}
+            <main className="relative min-h-screen">
+              {children}
+            </main>
+          </WalletProvider>
+        </AleoWalletProvider>
 
         {/* Analytics */}
         <Analytics />
