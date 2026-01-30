@@ -22,8 +22,8 @@ export function Navigation() {
     const connectedAddress = puzzleWallet.address;
 
     const navLinks = [
-        { href: '#features', label: 'Features' },
-        { href: '#how-it-works', label: 'How It Works' },
+        { href: '/features', label: 'Features' },
+        { href: '/how-it-works', label: 'How It Works' },
         { href: '/docs', label: 'Documentation' },
         { href: 'https://github.com/proofscore', label: 'GitHub', external: true },
     ];
@@ -57,16 +57,26 @@ export function Navigation() {
                         {/* Desktop Navigation */}
                         <div className="hidden md:flex items-center gap-8">
                             {navLinks.map((link) => (
-                                <a
-                                    key={link.href}
-                                    href={link.href}
-                                    target={link.external ? '_blank' : undefined}
-                                    rel={link.external ? 'noopener noreferrer' : undefined}
-                                    className="text-sm font-medium text-text-secondary hover:text-neon-cyan transition-colors flex items-center gap-1"
-                                >
-                                    {link.label}
-                                    {link.external && <ExternalLink className="w-3 h-3" />}
-                                </a>
+                                link.external ? (
+                                    <a
+                                        key={link.href}
+                                        href={link.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-sm font-medium text-text-secondary hover:text-neon-cyan transition-colors flex items-center gap-1"
+                                    >
+                                        {link.label}
+                                        <ExternalLink className="w-3 h-3" />
+                                    </a>
+                                ) : (
+                                    <Link
+                                        key={link.href}
+                                        href={link.href}
+                                        className="text-sm font-medium text-text-secondary hover:text-neon-cyan transition-colors flex items-center gap-1"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                )
                             ))}
                         </div>
 
@@ -144,17 +154,28 @@ export function Navigation() {
                     >
                         <div className="glass-card p-6 space-y-4">
                             {navLinks.map((link) => (
-                                <a
-                                    key={link.href}
-                                    href={link.href}
-                                    target={link.external ? '_blank' : undefined}
-                                    rel={link.external ? 'noopener noreferrer' : undefined}
-                                    className="block text-text-secondary hover:text-neon-cyan transition-colors py-2 flex items-center gap-2"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    {link.label}
-                                    {link.external && <ExternalLink className="w-4 h-4" />}
-                                </a>
+                                link.external ? (
+                                    <a
+                                        key={link.href}
+                                        href={link.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="block text-text-secondary hover:text-neon-cyan transition-colors py-2 flex items-center gap-2"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                    >
+                                        {link.label}
+                                        <ExternalLink className="w-4 h-4" />
+                                    </a>
+                                ) : (
+                                    <Link
+                                        key={link.href}
+                                        href={link.href}
+                                        className="block text-text-secondary hover:text-neon-cyan transition-colors py-2 flex items-center gap-2"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                )
                             ))}
                             <div className="pt-4 border-t border-glass-border">
                                 {isConnected ? (
